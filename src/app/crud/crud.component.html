@@ -1,0 +1,48 @@
+<body>
+    <h1>Lista de Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Producto</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Fecha de Publicación</th>
+                <th>ID Proveedor</th>
+                <th>ID Categoría</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Producto A</td>
+                <td>Marca A</td>
+                <td>100</td>
+                <td>2024-05-17</td>
+                <td>1</td>
+                <td>1</td>
+                <td><button>Editar</button></td>
+                <td><button>Eliminar</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <form>
+        <br>
+        <label>Nombre</label>
+        <br>
+        <input type="text" [(ngModel)]="nombre" name="nombre">
+        <br>
+        <label>Precio</label>
+        <br>
+        <input type="number" [(ngModel)]="precio" name="precio">
+        <br>
+        <label>Categoría</label>
+        <br>
+        <select [(ngModel)]="categoriaSeleccionada" name="categoria">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
+        </select>
+        <br>
+    </form>
+</body>

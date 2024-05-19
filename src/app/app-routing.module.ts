@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CrudComponent } from './Admin/crud/crud.component';
+import { CRUDComponent } from './crud/crud.component';
+
 
 const routes: Routes = [
-  { path: '', component: CrudComponent}
+  { path: '', component: CRUDComponent}
 ];
 
 @NgModule({
