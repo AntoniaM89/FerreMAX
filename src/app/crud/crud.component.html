@@ -19,12 +19,12 @@
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.id_categoria }}</td>
                 <td>{{ producto.precio }}</td>
-                <td><button (click)="showCantidad(producto.id_producto)">Detalle</button></td>
+                <td><button (click)="obtenerProductos_stock(producto.id_producto)">Detalle</button></td>
                 <td><button>Editar</button></td>
                 <td><button (click)="showStockForm(producto.id_producto)">Stock</button></td>
                 <td><button>Eliminar</button></td>
-                <td><button (click)=""> agregar carrito</button></td>
-              </tr>
+                <td><button (click)="createTransaction(producto.precio)"> pagar</button></td>
+            </tr>
         </tbody>
     </table>
     <form (ngSubmit)="crear_producto()">
@@ -67,13 +67,11 @@
             <button>Asignar stock</button>
         </form>
     </div>
-    
         <div *ngFor="let consulta of consultas">
             <h4>ID Producto: {{consulta.id_producto}}</h4>
             <h4>Nombre: {{consulta.nombre}}</h4>
             <h4>Precio: {{consulta.precio}}</h4>
             <h4>Categoría: {{consulta.nombre_categoria}}</h4>
             <h4>Cantidad: {{consulta.cantidad}}</h4>
-        </div>
-        <button (click)="createTransaction()">Crear Transacción</button>
+            </div>
 </body>

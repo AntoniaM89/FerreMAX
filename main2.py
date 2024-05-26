@@ -116,6 +116,9 @@ def stock_producto(id_prod):
     consulta = cursor.fetchall()
     return jsonify(consulta)
 
+#Carrito
+#C
+
 if __name__ == '__main__':
     print("Servidor Flask iniciado correctamente")
     app.run(host='0.0.0.0', port=5000)
