@@ -5,30 +5,30 @@
             <tr>
                 <th>ID Producto</th>
                 <th>Nombre</th>
-                <th>Marca</th>
+                <th>Categoria</th>
                 <th>Precio</th>
-                <th>Fecha de Publicación</th>
-                <th>ID Proveedor</th>
-                <th>ID Categoría</th>
+                <th>ver mas detalles</th>
                 <th>Editar</th>
+                <th>stock</th>
                 <th>Eliminar</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Producto A</td>
-                <td>Marca A</td>
-                <td>100</td>
-                <td>2024-05-17</td>
-                <td>1</td>
-                <td>1</td>
+            <tr *ngFor="let producto of productos">
+                <td>{{ producto.id_producto }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.id_categoria }}</td>
+                <td>{{ producto.precio }}</td>
+                <td><button (click)="showCantidad(producto.id_producto)">Detalle</button></td>
                 <td><button>Editar</button></td>
+                <td><button (click)="showStockForm(producto.id_producto)">Stock</button></td>
                 <td><button>Eliminar</button></td>
-            </tr>
+                <td><button (click)=""> agregar carrito</button></td>
+              </tr>
         </tbody>
     </table>
-    <form>
+    <form (ngSubmit)="crear_producto()">
+        <label>Crear Producto</label>
         <br>
         <label>Nombre</label>
         <br>
@@ -41,8 +41,39 @@
         <label>Categoría</label>
         <br>
         <select [(ngModel)]="categoriaSeleccionada" name="categoria">
-            <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
+            <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{categoria.nombre_categoria}}</option>
         </select>
+        
         <br>
+        <button>crear</button>
     </form>
+    <form (ngSubmit)="crear_categoria()">
+        <br>
+        <label>Crear categoría</label>
+        <br>
+        <label>Nombre</label>
+        <br>
+        <input type="text" [(ngModel)]="nombre_categoria" name="nombre_categoria" required>
+        <button>Crear</button>
+    </form>
+    <div *ngIf="productoSeleccionado !== null">
+        <form (ngSubmit)="stock()">
+            <br>
+            <label>Asignar stock al producto con ID: {{productoSeleccionado}}</label>
+            <br>
+            <label>Cantidad</label>
+            <br>
+            <input type="number" [(ngModel)]="cantidad" name="cantidad">
+            <button>Asignar stock</button>
+        </form>
+    </div>
+    
+        <div *ngFor="let consulta of consultas">
+            <h4>ID Producto: {{consulta.id_producto}}</h4>
+            <h4>Nombre: {{consulta.nombre}}</h4>
+            <h4>Precio: {{consulta.precio}}</h4>
+            <h4>Categoría: {{consulta.nombre_categoria}}</h4>
+            <h4>Cantidad: {{consulta.cantidad}}</h4>
+        </div>
+        <button (click)="createTransaction()">Crear Transacción</button>
 </body>

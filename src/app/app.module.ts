@@ -7,12 +7,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CRUDComponent } from './crud/crud.component';
+import { ReturnComponent } from './transbank/return/return.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CRUDComponent,
+    ReturnComponent,
   ],
   imports: [
     BrowserModule,
