@@ -76,6 +76,16 @@ export class CRUDComponent {
         console.error('Error al crear el producto', error)
     } )
   }
+  eliminar_producto(id_producto: number){
+    this.http.delete(`${this.apiUrl}/eliminar_prod/${id_producto}`, {})
+    .subscribe
+      (response=>{
+        console.log('producto borrado', response)
+      }, error=>{
+        console.error('Error al eliminar el producto', error)
+      }
+      );
+  }
   showStockForm(id_producto: number) {
     this.productoSeleccionado = id_producto;
   }  
@@ -94,7 +104,7 @@ export class CRUDComponent {
       console.error('ID del producto o cantidad no especificada');
     }
   }
-
+  
   obtenerProductos_stock(id_producto: number){
     this.http.get<any[]>(`${this.apiUrl}/stock_Producto/${id_producto}`)
       .subscribe(
