@@ -3,9 +3,9 @@ from flask_cors import CORS
 from transbank.webpay.webpay_plus.transaction import Transaction
 
 app = Flask(__name__)
-CORS(app)  # Permitir CORS para todas las rutas
+CORS(app)
 
-# Configurar Transbank SDK con tu código de comercio y clave secreta de API
+
 Transaction.commerce_code = '597055555532'
 Transaction.api_key_secret = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C'
 
