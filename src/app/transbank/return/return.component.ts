@@ -16,10 +16,10 @@ export class ReturnComponent {
     this.route.queryParams.subscribe(params => {
       const token_ws = params['token_ws'];
       if (token_ws) {
-        this.transactionService.getTransactionResult(token_ws).subscribe(result => {
+        this.transactionService.getTransaccionResultado(token_ws).subscribe(result => {
           this.result = result;
         }, error => {
-          console.error('Error getting transaction result', error);
+          console.error('Error obteniendo el resultado de la transaccion', error);
         });
       }
     });

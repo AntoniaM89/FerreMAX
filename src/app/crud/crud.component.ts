@@ -128,7 +128,6 @@ export class CRUDComponent {
       session_id: 'abcd1234',
       amount: precio
     };
-
     this.transactionService.createTransaction(data).subscribe(response => {
       const form = document.createElement('form');
       form.method = 'POST';
@@ -140,12 +139,8 @@ export class CRUDComponent {
       form.appendChild(tokenField);
       document.body.appendChild(form);
       form.submit();
-    }, error => {
+  }, error => {
       console.error('Error creando la transacción', error);
-    });
-  }
-  agregarCarrito(id_producto: number){
-
+  });
   }
 }
-
