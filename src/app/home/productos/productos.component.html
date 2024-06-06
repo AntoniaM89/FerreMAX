@@ -15,45 +15,16 @@
     <section class="product-catalog">
       <h2>Catálogo de Productos</h2>
       <div class="products">
-        <div class="product">
-         
-          <h3>Taladro</h3>
-          <p>$</p>
+        <div class="product" *ngFor="let producto of productos">
+          <h3>{{ producto.nombre }}</h3>
+          <p>{{ producto.precio }}</p>
           <div class="cart-item-quantity">
                 <label for="quantity">Cantidad:</label>
                 <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
               </div>
           
           <button class="add-to-cart">Agregar al carrito</button>
-        </div>
-        <div class="product">
-          
-          <h3>Martillo</h3>
-          <p>$</p>
-          <div class="cart-item-quantity">
-            <label for="quantity">Cantidad:</label>
-            <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
-          </div>
-          <button class="add-to-cart">Agregar al carrito</button>
-        </div>
-        <div class="product">
-          <h3>Clavos</h3>
-          <p>$</p>
-          <div class="cart-item-quantity">
-            <label for="quantity">Cantidad:</label>
-            <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
-          </div>
-          <button class="add-to-cart">Agregar al carrito</button>
-        </div>
-        <div class="product">
-          <h3>Casco</h3>
-          <p>$</p>
-          <div class="cart-item-quantity">
-            <label for="quantity">Cantidad:</label>
-            <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
-          </div>
-          <button class="add-to-cart">Agregar al carrito</button>
-        </div>
+        </div>  
       </div>
     </section>
   
