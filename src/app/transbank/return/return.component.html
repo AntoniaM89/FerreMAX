@@ -1,4 +1,4 @@
-
+<body>
 <header>
   <h1>Ferramax</h1>
   <nav>
@@ -8,19 +8,19 @@
     </ul>
   </nav>
 </header>
-    <div *ngIf="result">
-      <h2>Resultado de la Transacción</h2>
-      <pre>{{ result | json }}</pre>
-    </div>
-    <body>
-    <main>
-      <section>
-        <h2>Confirmación de Pago</h2>
-        <p>¡Gracias por tu compra!</p>
-        <p>Tu pago ha sido procesado correctamente.</p>
-      </section>
-    </main>
-  
+<section *ngIf="isAuthorized === true">
+  <h2>Confirmación de Pago</h2>
+  <p>¡Gracias por tu compra!</p>
+  <p>Tu pago ha sido procesado correctamente.</p>
+</section>
+<section *ngIf="isAuthorized === false">
+  <h2>Pago denegado</h2>
+  <p>Tu pago ha sido denegado, inténtelo más tarde.</p>
+</section>
+<section *ngIf="isAuthorized === null">
+  <h2>Cargando...</h2>
+  <p>Estamos procesando tu transacción, por favor espera un momento.</p>
+</section>
     <footer>
       <p>&copy; 2024 Ferramax. Todos los derechos reservados.</p>
     </footer>

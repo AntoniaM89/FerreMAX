@@ -15,30 +15,14 @@ db = mysql.connector.connect(
 )
 cursor = db.cursor()
 
-monedas = {
-    "EAD": "Dirham",
-    "ARS": "Peso Argentino",
-    "AUD": "Dólar Australiano",
-    "BOL": "Boliviano",
-    "VND": "Dong vietnamita",
-    "XPF": "Franco CFP",
-    "ZAR": "Rand sudafricano",
-    "DOR": "Dólar USA"
-}
 
 def obtener_tipo(codigo_moneda):
     try:
         fecha_hoy = datetime.date.today()
-        if codigo_moneda == "DOR":
-            url = f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=an.marambio@duocuc.cl&pass=Avril.8989!&timeseries=F073.TCO.PRE.Z.D&firstdate={str(fecha_hoy)}"
-            response = requests.get(url)
-            data = response.json()
-            resultado = float(data["Series"]["Obs"][0]["value"])
-        else:
-            url = f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=an.marambio@duocuc.cl&pass=Avril.8989!&timeseries=F072.CLP.{codigo_moneda}.N.O.D&firstdate={str(fecha_hoy)}"
-            response = requests.get(url)
-            data = response.json()
-            resultado = float(data["Series"]["Obs"][0]["value"])
+        url = f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=an.marambio@duocuc.cl&pass=Avril.8989!&timeseries=F073.TCO.PRE.Z.D&firstdate={str(fecha_hoy)}"
+        response = requests.get(url)
+        data = response.json()
+        resultado = float(data["Series"]["Obs"][0]["value"])
         
         cursor.execute('TRUNCATE TABLE cambio')
         db.commit()
@@ -51,17 +35,14 @@ def obtener_tipo(codigo_moneda):
         print("Error al obtener el tipo de cambio:", e)
         return None
 
-def convertir_moneda(monto, tipo_cambio):
-    return round(monto * tipo_cambio)
 
-@app.route('/guardar_tipos_cambio', methods=['GET'])
-def guardar_tipos_cambio():
-    for codigo in monedas.keys():
-        obtener_tipo(codigo)
-    
-    return jsonify({"message": "Tipos de cambio guardados exitosamente"})
+@app.route('/conversion/<moneda>', methods=['GET'])
+def conversion(moneda):
+    cursor.execute('SELECT valor_moneda FROM cambio')
+    valor_moneda = cursor.fetchall()
+    return round(moneda*valor_moneda)
 
 if __name__ == "__main__":
     with app.app_context():
         guardar_tipos_cambio()
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)

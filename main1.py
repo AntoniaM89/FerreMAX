@@ -1,6 +1,10 @@
+from transbank.webpay.webpay_plus.transaction import Transaction
+import requests
+import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from transbank.webpay.webpay_plus.transaction import Transaction
+import mysql.connector
+
 
 app = Flask(__name__)
 CORS(app)
@@ -22,7 +26,7 @@ def create_transaction():
             buy_order=data['buy_order'],
             session_id=data['session_id'],
             amount=data['amount'],
-            return_url="http://18.207.92.146:4200/return"  
+            return_url="http://34.202.160.94:4200/return"  
         )
         print("Respuesta de creación de transacción:", response) 
         return jsonify(response)
@@ -43,6 +47,9 @@ def payment_return():
     except Exception as e:
         print(f"Error confirmando la transacción: {str(e)}")  
         return jsonify({"error": str(e)}), 500
+
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)

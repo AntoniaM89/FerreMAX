@@ -20,7 +20,7 @@ export class CRUDComponent {
   consultas: any = [];
   productoSeleccionado: number | null = null;
   productoSeleccionado1: number | null = null;
-  private apiUrl = 'http://18.207.92.146:5000';
+  private apiUrl = 'http://34.202.160.94:5000';
   constructor(private http: HttpClient, private transactionService: CategoriaService, private router: Router) {}
   
   ngOnInit(): void {

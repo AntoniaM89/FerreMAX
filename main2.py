@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 import mysql.connector
 from flask_cors import CORS
-
+from transbank.webpay.webpay_plus.transaction import Transaction
+import requests
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -122,6 +124,32 @@ def stock_producto():
     cursor.execute('SELECT pro.id_producto, pro.nombre, pro.precio, cate.nombre_categoria, sto.cantidad FROM producto pro JOIN stock sto ON pro.id_producto = sto.id_producto JOIN categoria cate ON cate.id_categoria = pro.id_categoria')
     consulta = cursor.fetchall()
     return jsonify(consulta)
+
+def obtener_tipo(codigo_moneda):
+    try:
+        fecha_hoy = datetime.date.today()
+        url = f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=an.marambio@duocuc.cl&pass=Avril.8989!&timeseries=F073.TCO.PRE.Z.D&firstdate={str(fecha_hoy)}"
+        response = requests.get(url)
+        data = response.json()
+        resultado = float(data["Series"]["Obs"][0]["value"])
+        
+        cursor.execute('TRUNCATE TABLE cambio')
+        db.commit()
+        cursor.execute('INSERT INTO cambio (id_cambio, pais, valor_moneda) VALUES (%s, %s, %s)',
+                       (codigo_moneda, monedas[codigo_moneda], resultado))
+        db.commit()
+        
+        return resultado
+    except Exception as e:
+        print("Error al obtener el tipo de cambio:", e)
+        return None
+
+
+@app.route('/conversion', methods=['GET'])
+def conversion():
+    cursor.execute('SELECT valor_moneda FROM cambio')
+    valor_moneda = cursor.fetchall()
+    return round(valor_moneda)
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ import { CategoriaService } from 'src/app/Servicios/categoria.service';
 export class ReturnComponent {
   result: any;
 
+  isAuthorized: boolean | null = null;
   constructor(private route: ActivatedRoute, private transactionService: CategoriaService) { }
 
   ngOnInit(): void {
@@ -18,8 +19,10 @@ export class ReturnComponent {
       if (token_ws) {
         this.transactionService.getTransaccionResultado(token_ws).subscribe(result => {
           this.result = result;
+          this.isAuthorized = result.status === 'AUTHORIZED';
         }, error => {
           console.error('Error obteniendo el resultado de la transaccion', error);
+          this.isAuthorized = false;
         });
       }
     });

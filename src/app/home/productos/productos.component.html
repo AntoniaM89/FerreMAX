@@ -1,15 +1,17 @@
-
-  <body>
+<body>
   <header>
     <h1>Ferramax</h1>
     <nav>
       <ul>
-        <li><a  routerLink="/">Inicio</a></li>
-        <li><a  routerLink="/curd">Crud</a></li>
+        <li><a routerLink="/">Inicio</a></li>
+        <li><a routerLink="/crud">Crud</a></li>
       </ul>
     </nav>
   </header>
-  
+  <select [(ngModel)]="monedaSeleccionada" (change)="getCambio()">
+    <option value="CLP" selected>CLP</option>
+    <option value="USD">USD</option>
+  </select>
   <main>
     <!-- Sección del catálogo de productos -->
     <section class="product-catalog">
@@ -17,12 +19,14 @@
       <div class="products">
         <div class="product" *ngFor="let producto of productos">
           <h3>{{ producto.nombre }}</h3>
-          <p>${{ producto.precio }}</p>
+
+          <p *ngIf="monedaSeleccionada == 'CLP'">CLP {{ producto.precio }}</p>
+          <p *ngIf="monedaSeleccionada == 'USD'">USD {{ producto.precio * tipoCambio}}</p>
           <div class="cart-item-quantity">
             <label for="quantity-{{producto.id_producto}}">Cantidad:</label>
             <input type="number" id="quantity-{{producto.id_producto}}" [(ngModel)]="producto.cantidadSeleccionada" [min]="1" [max]="producto.cantidad" value="1">
           </div>
-          <button class="add-to-cart" (click)="agregarCarrito(producto, producto.cantidadSeleccionada)">Agregar al carrito</button>
+          <button class="add-to-cart" (click)="agregarAlCarrito(producto)">Agregar al carrito</button>
         </div>
       </div>
     </section>
@@ -31,25 +35,26 @@
     <section class="cart">
       <h2>Carrito de Compras</h2>
       <div class="cart-items">
-        <div class="cart-item" *ngFor="let item of carritoItems">
+        <div class="cart-item" *ngFor="let item of carritoItems; let i = index">
           <div class="cart-item-details">
             <h3>{{ item.name }}</h3>
-            <p>${{ item.price.toFixed(2) }}</p>
+            <p>{{ monedaSeleccionada }} {{ item.price.toFixed(2) }}</p>
           </div>
           <div class="cart-item-quantity">
             <label for="quantity-{{item.name}}">Cantidad:</label>
-            <input type="number" id="quantity-{{item.name}}" [(ngModel)]="item.quantity" (change)="actualizarPrecioTotal()" [min]="1" [max]="10">
+            <input type="number" id="quantity-{{item.name}}" [(ngModel)]="item.quantity" (change)="actualizarPrecioTotal()" [min]="1" [max]="item.maxQuantity">
           </div>
+          <button (click)="eliminarDelCarrito(i)">Eliminar</button>
         </div>
       </div>
       <div class="cart-total">
-        <p>Total: <span class="total-price">${{ totalPrice.toFixed(2) }}</span></p>
-        <button class="btn">Ir a Pagar</button>
+        <p>Total: <span class="total-price">{{ monedaSeleccionada }} {{ totalPrice.toFixed(2) }}</span></p>
+        <button class="btn" (click)="createTransaction(totalPrice)">Ir a Pagar</button>
       </div>
     </section>
   </main>
+
   <footer>
     <p>&copy; 2024 Ferramax. Todos los derechos reservados.</p>
   </footer>
-  
-  
+</body>
