@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CRUDComponent } from './crud/crud.component';
 import { ReturnComponent } from './transbank/return/return.component';
+import { ProductosComponent } from './home/productos/productos.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ReturnComponent } from './transbank/return/return.component';
     AppComponent,
     CRUDComponent,
     ReturnComponent,
+    ProductosComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,138 @@
+
+  <body>
+  <header>
+    <h1>Ferramax</h1>
+    <nav>
+      <ul>
+        <li><a  routerLink="/">Inicio</a></li>
+        <li><a  routerLink="/curd">Crud</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <!-- Sección del catálogo de productos -->
+    <section class="product-catalog">
+      <h2>Catálogo de Productos</h2>
+      <div class="products">
+        <div class="product">
+         
+          <h3>Taladro</h3>
+          <p>$</p>
+          <div class="cart-item-quantity">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
+              </div>
+          
+          <button class="add-to-cart">Agregar al carrito</button>
+        </div>
+        <div class="product">
+          
+          <h3>Martillo</h3>
+          <p>$</p>
+          <div class="cart-item-quantity">
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
+          </div>
+          <button class="add-to-cart">Agregar al carrito</button>
+        </div>
+        <div class="product">
+          <h3>Clavos</h3>
+          <p>$</p>
+          <div class="cart-item-quantity">
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
+          </div>
+          <button class="add-to-cart">Agregar al carrito</button>
+        </div>
+        <div class="product">
+          <h3>Casco</h3>
+          <p>$</p>
+          <div class="cart-item-quantity">
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
+          </div>
+          <button class="add-to-cart">Agregar al carrito</button>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Sección del carrito de compras -->
+    <section class="cart">
+      <h2>Carrito de Compras</h2>
+      <div class="cart-items">
+        <!-- Aquí se mostrarán los productos añadidos al carrito -->
+      </div>
+      <div class="cart-total">
+        <p>Total: <span class="total-price">$0.00</span></p>
+        <button class="btn">Ir a Pagar</button>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>&copy; 2024 Ferramax. Todos los derechos reservados.</p>
+  </footer>
+  
+  <script>
+    // Lógica de JavaScript para el carrito de compras
+    // (Omitido por brevedad)
+  
+    // Obtener los elementos del DOM
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  const cartItemsContainer = document.querySelector('.cart-items');
+  const totalPriceElement = document.querySelector('.total-price');
+  
+  // Inicializar el carrito de compras
+  let cartItems = [];
+  let totalPrice = 0;
+  
+  // Función para actualizar el precio total
+  function updateTotalPrice() {
+  totalPrice = 0;
+  cartItems.forEach(item => {
+    totalPrice += item.price * item.quantity;
+  });
+  totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+  }
+  
+  // Función para agregar un producto al carrito
+  function addToCart(event) {
+  const product = event.target.parentNode;
+  const productName = product.querySelector('h3').textContent;
+  const productPrice = parseFloat(product.querySelector('p').textContent.replace('$', ''));
+  const productQuantity = parseInt(product.querySelector('input').value);
+  
+  const item = {
+    name: productName,
+    price: productPrice,
+    quantity: productQuantity
+  };
+  
+  cartItems.push(item);
+  
+  const cartItemElement = document.createElement('div');
+  cartItemElement.classList.add('cart-item');
+  cartItemElement.innerHTML = `
+    <img src="product-image.jpg" alt="${productName}">
+    <div class="cart-item-details">
+      <h3>${productName}</h3>
+      <p>$${productPrice.toFixed(2)}</p>
+    </div>
+    <div class="cart-item-quantity">
+      <label for="quantity">Cantidad:</label>
+      <input type="number" id="quantity" value="${productQuantity}" min="1" max="10" onchange="updateTotalPrice()">
+    </div>
+  `;
+  
+  cartItemsContainer.appendChild(cartItemElement);
+  
+  updateTotalPrice();
+  }
+  
+  // Agregar el evento click a los botones "Agregar al carrito"
+  addToCartButtons.forEach(button => {
+  button.addEventListener('click', addToCart);
+  });
+  </script>
+  </body>

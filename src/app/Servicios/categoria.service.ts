@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CategoriaService {
-  private apiUrl = 'http://localhost:8080';  
+  private apiUrl = 'http://18.207.92.146:8080';  
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class CategoriaService {
     return this.http.post(`${this.apiUrl}/crear_transaccion`, data, { headers });
   }
 
-  getTransactionResult(token_ws: string): Observable<any> {
+  getTransaccionResultado(token_ws: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/return`, { params: { token_ws } });
   }
 }

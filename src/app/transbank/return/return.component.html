@@ -1,4 +1,27 @@
-<div *ngIf="result">
-    <h2>Resultado de la Transacción</h2>
-    <pre>{{ result | json }}</pre>
-  </div>
+
+<header>
+  <h1>Ferramax</h1>
+  <nav>
+    <ul>
+      <li><a  routerLink="/">Inicio</a></li>
+      <li><a  routerLink="/curd">Crud</a></li>
+    </ul>
+  </nav>
+</header>
+    <div *ngIf="result">
+      <h2>Resultado de la Transacción</h2>
+      <pre>{{ result | json }}</pre>
+    </div>
+    <body>
+    <main>
+      <section>
+        <h2>Confirmación de Pago</h2>
+        <p>¡Gracias por tu compra!</p>
+        <p>Tu pago ha sido procesado correctamente.</p>
+      </section>
+    </main>
+  
+    <footer>
+      <p>&copy; 2024 Ferramax. Todos los derechos reservados.</p>
+    </footer>
+  </body>
