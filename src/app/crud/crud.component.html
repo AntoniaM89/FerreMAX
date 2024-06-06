@@ -29,7 +29,7 @@
                 <td>{{ producto.id_categoria }}</td>
                 <td>{{ producto.precio }}</td>
                 <td><button (click)="obtenerProductos_stock(producto.id_producto)">Detalle</button></td>
-                <td><button>Editar</button></td>
+                <td><button (click)="showActualizarForm(producto.id_producto)">Editar</button></td>
                 <td><button (click)="showStockForm(producto.id_producto)">Stock</button></td>
                 <td><button (click)="eliminar_producto(producto.id_producto)">Eliminar</button></td>
                 <td><button (click)="createTransaction(producto.precio)"> pagar</button></td>
@@ -52,13 +52,10 @@
         <select [(ngModel)]="categoriaSeleccionada" name="categoria">
             <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{categoria.nombre_categoria}}</option>
         </select>
-        
-        <br>
-        <label> Stock</label>
-        <input type="number" [(ngModel)]="cantidad" name="cantidad">
         <br>
         <button>crear</button>
     </form>
+    <br>
     <form (ngSubmit)="crear_categoria()">
         <br>
         <label>Crear categoría</label>
@@ -68,6 +65,7 @@
         <input type="text" [(ngModel)]="nombre_categoria" name="nombre_categoria" required>
         <button>Crear</button>
     </form>
+    
     <div *ngIf="productoSeleccionado !== null">
         <form (ngSubmit)="stock()">
             <br>
@@ -85,5 +83,25 @@
             <h4>Precio: {{consulta.precio}}</h4>
             <h4>Categoría: {{consulta.nombre_categoria}}</h4>
             <h4>Cantidad: {{consulta.cantidad}}</h4>
-            </div>
+        </div>
+        <br>
+        <div>
+            <h1>Actualizar Producto</h1>
+            <h2>ID del Producto: {{ this.productoSeleccionado2 }}</h2>
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="nombreProducto" name="nombreProducto" placeholder="Nombre del producto">
+            <br>
+            <label>Precio</label>
+            <input type="number" [(ngModel)]="precioProducto" name="precioProducto" placeholder="Precio del producto">
+            <br>
+            <label>Categoría</label>
+            <select [(ngModel)]="idCategoriaSeleccionada" name="idCategoriaSeleccionada">
+                <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
+            </select>
+            <br>
+            <button (click)="actualizar_producto( nombreProducto, precioProducto, idCategoriaSeleccionada)">Actualizar</button>
+
+        </div>
+        
+    
 </body>

@@ -19,8 +19,14 @@ export class CRUDComponent {
   productos: any = [];
   consultas: any = [];
   productoSeleccionado: number | null = null;
-  productoSeleccionado1: number | null = null;
-  private apiUrl = 'http://34.202.160.94:5000';
+  idCategoria: number= 0;
+  nombreProducto: string ='';
+  precioProducto: number = 0;
+  categoriaProducto: number = 0;
+  idProductoSeleccionado: number=0;
+  idCategoriaSeleccionada:number=0;
+  productoSeleccionado2:number = 0;
+  private apiUrl = 'http://localhost:5000';
   constructor(private http: HttpClient, private transactionService: CategoriaService, private router: Router) {}
   
   ngOnInit(): void {
@@ -69,7 +75,7 @@ export class CRUDComponent {
   }
 
   crear_producto(){
-    this.http.post(`${this.apiUrl}/crear_prod/${this.nombre}/${this.precio}/${this.categoriaSeleccionada}/${this.cantidad}`, {})
+    this.http.post(`${this.apiUrl}/crear_prod/${this.nombre}/${this.precio}/${this.categoriaSeleccionada}`, {})
     .subscribe(response=>{
         console.log('producto creado:', response);
     }, error=>{
@@ -85,7 +91,26 @@ export class CRUDComponent {
         console.error('Error al eliminar el producto', error)
       }
       );
+    }
+    showActualizarForm(id_producto: number) {
+      this.productoSeleccionado2 = id_producto;
+    }  
+  actualizar_producto( nombre: string, precio: number, id_categoria: number) {
+    const data = {
+      nombre: nombre,
+      precio: precio,
+      id_categoria: id_categoria
+    };
+
+    this.http.put(`${this.apiUrl}/actualizar_prod/${data.nombre}/${data.precio}/${data.id_categoria}/${this.productoSeleccionado2}`,{})
+      .subscribe(response => { 
+        console.log('Producto actualizado:', response);
+      }, error => {
+        console.error('Error al actualizar el producto:', error);
+      });
   }
+
+
   showStockForm(id_producto: number) {
     this.productoSeleccionado = id_producto;
   }  

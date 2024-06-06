@@ -21,7 +21,7 @@
           <h3>{{ producto.nombre }}</h3>
 
           <p *ngIf="monedaSeleccionada == 'CLP'">CLP {{ producto.precio }}</p>
-          <p *ngIf="monedaSeleccionada == 'USD'">USD {{ producto.precio * tipoCambio}}</p>
+          <p *ngIf="monedaSeleccionada == 'USD'">USD {{ (producto.precio / tipoCambio).toFixed(2)}}</p>
           <div class="cart-item-quantity">
             <label for="quantity-{{producto.id_producto}}">Cantidad:</label>
             <input type="number" id="quantity-{{producto.id_producto}}" [(ngModel)]="producto.cantidadSeleccionada" [min]="1" [max]="producto.cantidad" value="1">
@@ -38,7 +38,7 @@
         <div class="cart-item" *ngFor="let item of carritoItems; let i = index">
           <div class="cart-item-details">
             <h3>{{ item.name }}</h3>
-            <p>{{ monedaSeleccionada }} {{ item.price.toFixed(2) }}</p>
+            <p>{{ monedaSeleccionada }} {{ (item.price /tipoCambio).toFixed(2) }}</p>
           </div>
           <div class="cart-item-quantity">
             <label for="quantity-{{item.name}}">Cantidad:</label>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="cart-total">
-        <p>Total: <span class="total-price">{{ monedaSeleccionada }} {{ totalPrice.toFixed(2) }}</span></p>
+        <p>Total: <span class="total-price">{{ monedaSeleccionada }} {{ (totalPrice/ tipoCambio).toFixed(2) }}</span></p>
         <button class="btn" (click)="createTransaction(totalPrice)">Ir a Pagar</button>
       </div>
     </section>

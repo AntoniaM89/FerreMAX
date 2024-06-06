@@ -99,18 +99,22 @@ def listar_producto(id_pro):
     producto = cursor.fetchall()
     return jsonify(producto)
 #U
-@app.route('/actualizar_prod/<int:id_pro>/<nombre>/<precio>/<int:id_cate>', methods=['PUT'])
-def actualizar_prod(id_pro, nombre, precio, id_cate):
+@app.route('/actualizar_prod/<nombre>/<precio>/<int:id_cate>/<int:id_pro>', methods=['PUT'])
+def actualizar_prod( nombre, precio, id_cate,id_pro):
     cursor.execute('UPDATE producto SET nombre = %s, precio = %s,  id_categoria = %s  WHERE id_producto = %s', (nombre, precio, id_cate, id_pro))
     db.commit()
     return jsonify('Se actualizó correctamente')
 #D
 @app.route('/eliminar_prod/<int:id_prod>', methods=['DELETE'])
 def eliminar_producto(id_prod):
-    cursor.execute('DELETE FROM producto where id_producto = %s', (id_prod,))
-    db.commit()
-    return jsonify('Se elimino correctamente')
-
+    try:
+        cursor.execute('DELETE FROM stock WHERE id_producto = %s', (id_prod,))
+        cursor.execute('DELETE FROM producto WHERE id_producto = %s', (id_prod,))
+        db.commit()
+        return jsonify('Se eliminó correctamente el producto y sus registros en stock.')
+    except Exception as e:
+        db.rollback()
+        return jsonify(f'Error al eliminar el producto: {str(e)}'), 500
 #consulta stock
 @app.route('/stock_Producto_id/<int:id_prod>', methods=['GET'])
 def stock_producto_id(id_prod):
@@ -125,18 +129,15 @@ def stock_producto():
     consulta = cursor.fetchall()
     return jsonify(consulta)
 
-def obtener_tipo(codigo_moneda):
+def obtener_tipo():
     try:
         fecha_hoy = datetime.date.today()
         url = f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=an.marambio@duocuc.cl&pass=Avril.8989!&timeseries=F073.TCO.PRE.Z.D&firstdate={str(fecha_hoy)}"
         response = requests.get(url)
         data = response.json()
         resultado = float(data["Series"]["Obs"][0]["value"])
-        
-        cursor.execute('TRUNCATE TABLE cambio')
-        db.commit()
-        cursor.execute('INSERT INTO cambio (id_cambio, pais, valor_moneda) VALUES (%s, %s, %s)',
-                       (codigo_moneda, monedas[codigo_moneda], resultado))
+        cursor.execute('INSERT INTO cambio (valor_moneda) VALUES ( %s)', (resultado,))
+        print(resultado)
         db.commit()
         
         return resultado
@@ -148,10 +149,13 @@ def obtener_tipo(codigo_moneda):
 @app.route('/conversion', methods=['GET'])
 def conversion():
     cursor.execute('SELECT valor_moneda FROM cambio')
-    valor_moneda = cursor.fetchall()
-    return round(valor_moneda)
+    valor_moneda = cursor.fetchone()[0]
+    valor_redondeado = round(valor_moneda)  
+    print(valor_redondeado)
+    return str(valor_redondeado), 200
 
 
 if __name__ == '__main__':
+    #obtener_tipo()
     print("Servidor Flask iniciado correctamente")
     app.run(host='0.0.0.0', port=5000)

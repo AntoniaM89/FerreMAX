@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CategoriaService {
-  private apiUrl = 'http://34.202.160.94:8080';  
+  private apiUrl = 'http://localhost:8080';  
 
   constructor(private http: HttpClient) { }
 
