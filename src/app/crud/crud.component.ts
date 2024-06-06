@@ -69,7 +69,7 @@ export class CRUDComponent {
   }
 
   crear_producto(){
-    this.http.post(`${this.apiUrl}/crear_prod/${this.nombre}/${this.precio}/${this.categoriaSeleccionada}`, {})
+    this.http.post(`${this.apiUrl}/crear_prod/${this.nombre}/${this.precio}/${this.categoriaSeleccionada}/${this.cantidad}`, {})
     .subscribe(response=>{
         console.log('producto creado:', response);
     }, error=>{

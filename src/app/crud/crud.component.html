@@ -54,6 +54,9 @@
         </select>
         
         <br>
+        <label> Stock</label>
+        <input type="number" [(ngModel)]="cantidad" name="cantidad">
+        <br>
         <button>crear</button>
     </form>
     <form (ngSubmit)="crear_categoria()">

@@ -110,14 +110,19 @@ def eliminar_producto(id_prod):
     return jsonify('Se elimino correctamente')
 
 #consulta stock
-@app.route('/stock_Producto/<int:id_prod>', methods=['GET'])
-def stock_producto(id_prod):
+@app.route('/stock_Producto_id/<int:id_prod>', methods=['GET'])
+def stock_producto_id(id_prod):
     cursor.execute('SELECT pro.id_producto, pro.nombre, pro.precio, cate.nombre_categoria, sto.cantidad FROM producto pro JOIN stock sto ON pro.id_producto = sto.id_producto JOIN categoria cate ON cate.id_categoria = pro.id_categoria WHERE pro.id_producto = %s', (id_prod,))
     consulta = cursor.fetchall()
     return jsonify(consulta)
 
-#Carrito
-#C
+#consulta stock por id
+@app.route('/stock_Producto', methods=['GET'])
+def stock_producto():
+    cursor.execute('SELECT pro.id_producto, pro.nombre, pro.precio, cate.nombre_categoria, sto.cantidad FROM producto pro JOIN stock sto ON pro.id_producto = sto.id_producto JOIN categoria cate ON cate.id_categoria = pro.id_categoria')
+    consulta = cursor.fetchall()
+    return jsonify(consulta)
+
 
 if __name__ == '__main__':
     print("Servidor Flask iniciado correctamente")
