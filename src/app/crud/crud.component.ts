@@ -26,7 +26,7 @@ export class CRUDComponent {
   idProductoSeleccionado: number=0;
   idCategoriaSeleccionada:number=0;
   productoSeleccionado2:number = 0;
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = 'http://3.95.149.137:5000';
   constructor(private http: HttpClient, private transactionService: CategoriaService, private router: Router) {}
   
   ngOnInit(): void {

@@ -26,7 +26,7 @@ def create_transaction():
             buy_order=data['buy_order'],
             session_id=data['session_id'],
             amount=data['amount'],
-            return_url="http://localhost:4200/return"  
+            return_url="http://3.95.149.137:4200/return"  
         )
         print("Respuesta de creación de transacción:", response) 
         return jsonify(response)

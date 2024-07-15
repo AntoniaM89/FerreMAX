@@ -16,18 +16,17 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 
 
-def obtener_tipo(codigo_moneda):
+def guardar_tipos_cambio():
     try:
         fecha_hoy = datetime.date.today()
         url = f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=an.marambio@duocuc.cl&pass=Avril.8989!&timeseries=F073.TCO.PRE.Z.D&firstdate={str(fecha_hoy)}"
         response = requests.get(url)
         data = response.json()
         resultado = float(data["Series"]["Obs"][0]["value"])
-        
+        print(resultado)
         cursor.execute('TRUNCATE TABLE cambio')
         db.commit()
-        cursor.execute('INSERT INTO cambio (id_cambio, pais, valor_moneda) VALUES (%s, %s, %s)',
-                       (codigo_moneda, monedas[codigo_moneda], resultado))
+        cursor.execute('INSERT INTO cambio (valor_moneda) VALUES (%s)',( resultado,))
         db.commit()
         
         return resultado
@@ -36,13 +35,13 @@ def obtener_tipo(codigo_moneda):
         return None
 
 
-@app.route('/conversion/<moneda>', methods=['GET'])
-def conversion(moneda):
+@app.route('/conversion', methods=['GET'])
+def conversion():
+    print('hola')
     cursor.execute('SELECT valor_moneda FROM cambio')
     valor_moneda = cursor.fetchall()
-    return round(moneda*valor_moneda)
+    return (valor_moneda)
 
 if __name__ == "__main__":
-    with app.app_context():
-        guardar_tipos_cambio()
+    guardar_tipos_cambio()
     app.run(host='0.0.0.0', port=5001)

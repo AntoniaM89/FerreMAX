@@ -27,8 +27,8 @@ export class ProductosComponent implements OnInit {
   carritoItems: CarritoItem[] = [];
   totalPrice: number = 0;
   monedaSeleccionada: string = 'CLP';
-  tipoCambio: number = 1; // Inicializa el tipo de cambio con un valor predeterminado
-  private apiUrl = 'http://localhost:5000';
+  tipoCambio: number = 0; 
+  private apiUrl = 'http://3.95.149.137:5000';
 
   constructor(private http: HttpClient) {}
 
@@ -87,7 +87,7 @@ export class ProductosComponent implements OnInit {
       session_id: 'abcd1234',
       amount: totalPrice
     };
-    this.http.post<{ url: string; token: string }>(`${this.apiUrl}/transaction`, data)
+    this.http.post<{ url: string; token: string }>(`http://3.95.149.137:8080/crear_transaccion`, data)
       .subscribe(response => {
         const form = document.createElement('form');
         form.method = 'POST';
@@ -105,7 +105,7 @@ export class ProductosComponent implements OnInit {
   }
 
   getCambio(): void {
-    this.http.get<number>(`${this.apiUrl}/conversion`)
+    this.http.get<number>(`http://3.95.149.137:5001/conversion`)
       .subscribe((tipoCambio: number) => {
         this.tipoCambio = tipoCambio;
         console.log(this.tipoCambio)

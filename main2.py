@@ -7,7 +7,7 @@ import datetime
 
 app = Flask(__name__)
 CORS(app)
-CORS(app, resources={r"/*": {"origins": 'http://3.84.113.5:4200/'}})
+CORS(app, resources={r"/*": {"origins": 'http://3.95.149.137:4200/'}})
 db = mysql.connector.connect(
     host="localhost",
     user="root",
